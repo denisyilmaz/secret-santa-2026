@@ -236,7 +236,12 @@
 
 /* ---------- running ribbon ---------- */
 .ribbon-clip {
-  overflow: hidden;
+  /* Clip sideways only. The band is tilted, so on a wide screen its ends rise
+     and fall further than the padding: they must be free to show. */
+  overflow-x: clip;
+  overflow-y: visible;
+  position: relative;
+  z-index: 1;
   padding: 16px 0 18px;
 }
 .ribbon {
