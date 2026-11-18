@@ -27,17 +27,18 @@ import { Spenden } from '../spenden/spenden';
       gap: 10px 14px;
       background: var(--paper);
       border: var(--line);
-      border-radius: 22px;
+      border-radius: 10px;
       padding: 10px 12px;
       box-shadow: var(--shadow);
       animation: rise-in 0.5s var(--spring) both;
     }
     .me-chip {
-      font: 400 1.25rem/1 var(--display);
+      font: 700 1.55rem/1.05 var(--display);
+      color: var(--on);
       background: var(--c);
       border: var(--line);
-      border-radius: 999px;
-      padding: 0.32em 0.7em 0.36em;
+      border-radius: 8px;
+      padding: 0.18em 0.6em 0.26em;
       animation: wave 0.9s ease-in-out 0.5s 2;
       transform-origin: 20% 80%;
     }

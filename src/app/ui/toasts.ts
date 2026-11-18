@@ -46,7 +46,7 @@ export class Toasts {
       background: var(--ink);
       color: var(--paper);
       border: 3px solid var(--yellow);
-      border-radius: 14px;
+      border-radius: 8px;
       padding: 11px 16px;
       font-weight: 600;
       text-align: center;

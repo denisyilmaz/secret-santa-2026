@@ -20,8 +20,6 @@ export class App {
   protected readonly store = inject(Store);
   protected readonly motion = inject(Motion);
 
-  protected readonly word1 = 'Wichtel'.split('');
-  protected readonly word2 = 'markt'.split('');
   protected readonly ribbon = ['Spenden verlosen', 'Wünsche aufschreiben', 'Heimlich abhaken'];
   protected readonly ribbonRepeat = [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -69,7 +67,7 @@ export class App {
     }
   }
 
-  /** The number on the sticker spins up once, like a 90s game show counter. */
+  /** The number on the ornament counts up once. */
   private countUp(target: number): void {
     if (!this.motion.enabled()) {
       this.dayBig.set(String(target));

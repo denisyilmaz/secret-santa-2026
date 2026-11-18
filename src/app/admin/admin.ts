@@ -39,7 +39,7 @@ import { Toasts } from '../ui/toasts';
       text-shadow: none;
       background: var(--paper);
       border: var(--line);
-      border-radius: 16px;
+      border-radius: 8px;
       padding: 12px 16px;
       box-shadow: 4px 4px 0 var(--ink);
     }

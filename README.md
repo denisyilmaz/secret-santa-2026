@@ -131,7 +131,7 @@ src/app/buden/         the wish-list booths
 src/app/admin/         reset tools
 src/app/fx/            canvas backdrop (drifting shapes, snow), confetti
 src/app/ui/            dialogs, toasts
-src/styles.css         tokens (70s Christmas palette), buttons, forms, shared keyframes
+src/styles.css         tokens (60s Christmas look), buttons, forms, shared keyframes
 ```
 
 ## Motion

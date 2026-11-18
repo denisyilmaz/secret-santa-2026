@@ -10,19 +10,10 @@
 
     <div class="marquee">
       <h1 class="logo" aria-label="Wichtelmarkt">
-        <span class="word" aria-hidden="true">
-          @for (ch of word1; track $index) {
-            <span class="ltr" [style.--i]="$index">{{ ch }}</span>
-          }
-        </span>
-        <span class="word" aria-hidden="true">
-          @for (ch of word2; track $index) {
-            <span class="ltr" [style.--i]="$index + 7">{{ ch }}</span>
-          }
-        </span>
+        <span class="word" aria-hidden="true">Wichtel</span>
+        <span class="word" aria-hidden="true">markt</span>
       </h1>
-      <p class="burst">
-        <i aria-hidden="true"></i>
+      <p class="bauble">
         <b>{{ dayBig() }}</b>
         <span>{{ dayLabel() }}</span>
       </p>

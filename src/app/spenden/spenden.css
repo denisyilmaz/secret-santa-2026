@@ -20,9 +20,9 @@ section {
 
 /* ---------- my wish ---------- */
 .pot {
-  background: #fff;
+  background: var(--white);
   border: var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 14px 16px;
   margin-bottom: 14px;
   animation: pop-in 0.4s var(--spring);
@@ -91,7 +91,7 @@ section {
   border: var(--line);
   background:
     radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.95) 0 8%, transparent 9%),
-    repeating-conic-gradient(from 0deg, #fff 0 30deg, var(--paper-2) 30deg 60deg);
+    repeating-conic-gradient(from 0deg, var(--white) 0 30deg, var(--paper-2) 30deg 60deg);
   box-shadow:
     inset 0 0 0 7px var(--teal),
     inset 0 0 0 10px var(--ink);
@@ -147,8 +147,9 @@ section {
   height: 100%;
   border-radius: 50%;
   background: var(--c);
+  color: var(--on);
   border: var(--line);
-  font: 400 1rem/1 var(--display);
+  font: 800 1rem/1 var(--body);
   animation: ball-in 0.6s var(--spring) backwards;
 }
 .drum.spinning .drum-body {
@@ -214,7 +215,8 @@ section {
   }
 }
 .rolling {
-  font: 400 1.2rem/1.2 var(--display);
+  font: 700 1.6rem/1.2 var(--display);
+  color: var(--red);
   text-align: center;
   animation: pulse 0.6s ease-in-out infinite alternate;
 }
@@ -237,12 +239,12 @@ section {
   border-radius: 999px;
   padding: 0.18em 0.7em;
   font-weight: 600;
-  background: #fff;
+  background: var(--white);
   color: var(--muted);
 }
 .chip.on {
   background: var(--c);
-  color: var(--ink);
+  color: var(--on);
   border: var(--line);
   animation: pop-in 0.4s var(--spring);
 }
@@ -252,8 +254,8 @@ section {
   width: 0.55em;
   height: 0.3em;
   margin-left: 0.45em;
-  border-left: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
+  border-left: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
   transform: translateY(-0.22em) rotate(-45deg);
 }
 
@@ -262,15 +264,15 @@ section {
   display: block;
   width: 100%;
   font: inherit;
-  color: var(--ink);
+  color: var(--white);
   text-align: center;
   border: var(--line);
-  border-radius: 16px;
+  border-radius: 10px;
   padding: 22px 20px;
   box-shadow: 4px 4px 0 var(--ink);
   background:
     radial-gradient(circle at 0 50%, var(--paper) 11px, transparent 12px),
-    radial-gradient(circle at 100% 50%, var(--paper) 11px, transparent 12px), var(--pink);
+    radial-gradient(circle at 100% 50%, var(--paper) 11px, transparent 12px), var(--red);
 }
 .lot.shut {
   cursor: pointer;
@@ -283,7 +285,7 @@ section {
 }
 .lot-big {
   display: block;
-  font: 400 1.5rem/1.1 var(--display);
+  font: 700 1.9rem/1.1 var(--display);
 }
 .lot-small {
   display: block;
@@ -291,6 +293,7 @@ section {
   font-weight: 600;
 }
 .lot.open {
+  color: var(--ink);
   background:
     radial-gradient(circle at 0 50%, var(--paper) 11px, transparent 12px),
     radial-gradient(circle at 100% 50%, var(--paper) 11px, transparent 12px), var(--yellow);
@@ -300,15 +303,16 @@ section {
   margin: 0;
 }
 .lot.open .lot-name {
-  font: 400 2.5rem/1 var(--display);
+  font: 700 2.9rem/1.1 var(--display);
   margin: 4px 0 12px;
 }
 .lot-name span {
   display: inline-block;
   background: var(--c);
+  color: var(--on);
   border: var(--line);
-  border-radius: 12px;
-  padding: 0.1em 0.35em 0.16em;
+  border-radius: 8px;
+  padding: 0.05em 0.35em 0.12em;
   transform: rotate(-2deg);
   animation: name-slam 0.5s var(--spring) 0.25s backwards;
 }
@@ -374,10 +378,10 @@ section {
 /* ---------- light chain: one bulb per finished donation ---------- */
 .chain-card {
   margin-top: 22px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--teal);
+  color: var(--white);
   border-color: var(--ink);
-  box-shadow: 5px 5px 0 var(--teal);
+  box-shadow: 5px 5px 0 var(--red);
   animation-delay: 0.2s;
 }
 .chain-card p {
@@ -389,7 +393,7 @@ section {
   gap: 4px;
   padding: 0;
   margin: 16px 0 0;
-  border-top: 4px solid var(--wire);
+  border-top: 4px solid var(--paper-2);
 }
 .chain li {
   flex: 1;
@@ -408,8 +412,8 @@ section {
   margin-top: 11px;
   position: relative;
   border-radius: 50% / 38% 38% 62% 62%;
-  background: #4a3324;
-  border: 3px solid #8a6f55;
+  background: #17594f;
+  border: 2px solid #7fb3a3;
   transform-origin: 50% -11px;
   animation: hang 4s ease-in-out infinite;
   animation-delay: calc(var(--i) * -0.9s);
@@ -421,12 +425,12 @@ section {
   top: -14px;
   width: 10px;
   height: 12px;
-  background: var(--wire);
+  background: var(--paper-2);
   border-radius: 2px 2px 0 0;
 }
 .chain li.on .cb {
   background: var(--c);
-  border-color: var(--paper);
+  border-color: var(--white);
   box-shadow: 0 0 20px 5px var(--c);
   animation:
     hang 4s ease-in-out infinite,

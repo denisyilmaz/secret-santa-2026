@@ -12,7 +12,7 @@ section {
 .booth {
   background: var(--paper);
   border: var(--line);
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: var(--shadow);
   padding: 0 16px 18px;
   animation: booth-in 0.65s var(--spring) both;
@@ -22,9 +22,9 @@ section {
   height: 46px;
   margin: 0 -16px;
   border-bottom: var(--line);
-  border-radius: 17px 17px 0 0;
+  border-radius: 8px 8px 0 0;
   position: relative;
-  background: repeating-linear-gradient(90deg, var(--c) 0 26px, #fff 26px 52px);
+  background: repeating-linear-gradient(90deg, var(--c) 0 26px, var(--white) 26px 52px);
   transform-origin: top;
   animation: unroll 0.55s var(--spring) both;
   animation-delay: calc(var(--i) * 110ms + 420ms);
@@ -39,7 +39,7 @@ section {
   filter: drop-shadow(0 3px 0 var(--ink));
   background:
     radial-gradient(circle at 13px 0, var(--c) 12.5px, transparent 13px) 0 0/52px 13px repeat-x,
-    radial-gradient(circle at 13px 0, #fff 12.5px, transparent 13px) 26px 0/52px 13px repeat-x;
+    radial-gradient(circle at 13px 0, var(--white) 12.5px, transparent 13px) 26px 0/52px 13px repeat-x;
   transform-origin: top;
   animation: flutter 3.4s ease-in-out infinite alternate;
   animation-delay: calc(var(--i) * -0.8s);
@@ -73,10 +73,11 @@ section {
 }
 .plate {
   margin: 0;
-  font: 400 1.55rem/1 var(--display);
+  font: 700 1.9rem/1.05 var(--display);
+  color: var(--on);
   background: var(--c);
   border: var(--line);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 0.28em 0.55em 0.34em;
   transform: rotate(-2deg);
   transform-origin: 50% -14px;
@@ -102,12 +103,14 @@ section {
   }
 }
 .yours {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
   background: var(--ink);
-  color: var(--paper);
-  border-radius: 999px;
-  padding: 0.2em 0.7em;
+  color: var(--white);
+  border-radius: 6px;
+  padding: 0.35em 0.7em;
 }
 .booth-meta {
   margin: 12px 0 4px;
@@ -128,7 +131,7 @@ section {
   gap: 12px;
   align-items: start;
   padding: 11px 0;
-  border-top: 2px dashed rgba(42, 23, 13, 0.25);
+  border-top: 2px dashed rgba(23, 63, 56, 0.3);
   animation: wish-in 0.4s var(--spring);
 }
 .wish:first-child {
@@ -182,9 +185,10 @@ label.wish-text {
   display: grid;
   place-content: center;
   border: var(--line);
-  border-radius: 9px;
+  border-radius: 6px;
   background: var(--c);
-  font: 400 1.1rem/1 var(--display);
+  color: var(--on);
+  font: 800 1.1rem/1 var(--body);
   animation: rattle 5.5s ease-in-out infinite;
   animation-delay: calc(var(--j) * 1.4s + 2s);
 }
@@ -212,7 +216,7 @@ label.wish-text {
   height: 32px;
   border: var(--line);
   border-radius: 50%;
-  background: #fff;
+  background: var(--white);
   color: var(--ink);
   font: 700 1.1rem/1 var(--body);
   cursor: pointer;
@@ -228,11 +232,11 @@ label.wish-text {
 /* the rubber stamp that lands when I tick something */
 .stamp {
   align-self: center;
-  font: 400 0.82rem/1 var(--display);
+  font: 700 1.1rem/1 var(--display);
   color: #b5301f;
-  border: 3px solid #b5301f;
-  border-radius: 8px;
-  padding: 0.32em 0.5em;
+  border: 2px solid #b5301f;
+  border-radius: 6px;
+  padding: 0.2em 0.45em 0.28em;
   transform: rotate(-9deg);
   animation: stamp 0.4s cubic-bezier(0.3, 1.5, 0.5, 1) both;
 }

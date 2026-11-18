@@ -100,23 +100,26 @@ export class Dialogs {
   styles: `
     .dlg {
       border: var(--line);
-      border-radius: 20px;
+      border-radius: 10px;
       background: var(--paper);
       color: var(--ink);
-      padding: 22px;
-      width: min(92vw, 390px);
-      box-shadow: 8px 8px 0 var(--ink);
+      padding: 26px;
+      width: min(92vw, 400px);
+      box-shadow:
+        var(--frame),
+        8px 8px 0 var(--teal);
       font: 500 1rem/1.45 var(--body);
     }
     .dlg[open] {
       animation: dlg-in 0.38s cubic-bezier(0.2, 1.5, 0.4, 1);
     }
     .dlg::backdrop {
-      background: rgba(20, 12, 6, 0.74);
+      background: rgba(23, 63, 56, 0.72);
     }
     h3 {
       margin: 0 0 10px;
-      font: 400 1.4rem/1.1 var(--display);
+      font: 700 1.9rem/1.1 var(--display);
+      color: var(--red);
     }
     p {
       margin: 0;
@@ -145,10 +148,10 @@ export class Dialogs {
       height: 62px;
       display: grid;
       place-content: center;
-      background: #fff;
+      background: var(--white);
       border: var(--line);
-      border-radius: 14px;
-      font: 400 1.9rem/1 var(--display);
+      border-radius: 8px;
+      font: 800 1.9rem/1 var(--body);
     }
     .pin-cell.filled {
       background: var(--yellow);

@@ -21,11 +21,11 @@ interface Flake {
   phase: number;
 }
 
-const COLORS = ['#e5553b', '#9aae3f', '#ecb23a', '#e8899a', '#45a69d', '#e07b2a'];
+const COLORS = ['#fffaf0', '#fffaf0', '#7ab7a9', '#cf2e26', '#f0b53a', '#1d6b5f'];
 
 /**
- * The night sky behind everything: a pine-green gradient, drifting squiggles and
- * triangles, and slow snow. With motion off it paints one still frame.
+ * The night sky behind everything: an aqua gradient, drifting mid-century starbursts
+ * and diamonds, and slow snow. With motion off it paints one still frame.
  */
 @Component({
   selector: 'wm-backdrop',
@@ -114,7 +114,7 @@ export class Backdrop {
     this.flakes = Array.from({ length: nFlakes }, () => ({
       x: Math.random() * this.w,
       y: Math.random() * this.h,
-      r: 1.2 + Math.random() * 2.6,
+      r: 1.6 + Math.random() * 3,
       fall: 14 + Math.random() * 30,
       sway: 6 + Math.random() * 16,
       phase: Math.random() * Math.PI * 2,
@@ -146,15 +146,13 @@ export class Backdrop {
     const { w, h } = this;
     g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     const sky = g.createLinearGradient(0, 0, 0, h);
-    sky.addColorStop(0, '#10332b');
-    sky.addColorStop(1, '#1f4d3c');
+    sky.addColorStop(0, '#a4d0c4');
+    sky.addColorStop(1, '#cfe6dc');
     g.fillStyle = sky;
     g.fillRect(0, 0, w, h);
 
-    g.lineWidth = 4;
     g.lineCap = 'round';
     g.lineJoin = 'round';
-    g.globalAlpha = 0.32;
     for (const s of this.shapes) {
       s.x = (s.x + s.dx * dt + w + 40) % (w + 40);
       s.y = (s.y + s.dy * dt + h + 40) % (h + 40);
@@ -162,41 +160,57 @@ export class Backdrop {
       g.save();
       g.translate(s.x - 20, s.y - 20);
       g.rotate(s.rot);
+      g.globalAlpha = 0.5;
       g.strokeStyle = s.color;
       g.fillStyle = s.color;
-      g.beginPath();
+      g.lineWidth = 2;
       const z = s.size;
+      g.beginPath();
       if (s.kind === 0) {
-        for (let k = 0; k <= 24; k++) {
-          const x = ((k - 12) * z) / 5;
-          const y = (Math.sin((k / 24) * Math.PI * 4) * z) / 2.4;
-          if (k) g.lineTo(x, y);
-          else g.moveTo(x, y);
+        // atomic starburst: eight rays, long and short in turn
+        for (let k = 0; k < 8; k++) {
+          const a = (k * Math.PI) / 4;
+          const r = k % 2 ? z * 0.55 : z * 1.15;
+          g.moveTo(Math.cos(a) * z * 0.18, Math.sin(a) * z * 0.18);
+          g.lineTo(Math.cos(a) * r, Math.sin(a) * r);
         }
         g.stroke();
       } else if (s.kind === 1) {
-        g.moveTo(0, -z);
-        g.lineTo(z, z * 0.8);
-        g.lineTo(-z, z * 0.8);
+        // four-point sparkle with pinched sides
+        for (let k = 0; k < 4; k++) {
+          const a = (k * Math.PI) / 2;
+          const b = a + Math.PI / 4;
+          if (k) g.lineTo(Math.cos(a) * z, Math.sin(a) * z);
+          else g.moveTo(Math.cos(a) * z, Math.sin(a) * z);
+          g.lineTo(Math.cos(b) * z * 0.22, Math.sin(b) * z * 0.22);
+        }
         g.closePath();
-        g.stroke();
+        g.fill();
       } else if (s.kind === 2) {
-        g.arc(0, 0, z / 2.6, 0, Math.PI * 2);
+        g.arc(0, 0, z / 3.2, 0, Math.PI * 2);
         g.fill();
       } else if (s.kind === 3) {
-        g.moveTo(-z * 0.7, 0);
-        g.lineTo(z * 0.7, 0);
-        g.moveTo(0, -z * 0.7);
-        g.lineTo(0, z * 0.7);
+        // diamond
+        g.moveTo(0, -z * 0.8);
+        g.lineTo(z * 0.5, 0);
+        g.lineTo(0, z * 0.8);
+        g.lineTo(-z * 0.5, 0);
+        g.closePath();
         g.stroke();
       } else {
-        for (let k = 0; k < 5; k++) {
-          const x = (k - 2) * z * 0.6;
-          const y = k % 2 ? z * 0.4 : -z * 0.4;
-          if (k) g.lineTo(x, y);
-          else g.moveTo(x, y);
+        // six rays with a dot on every tip
+        for (let k = 0; k < 6; k++) {
+          const a = (k * Math.PI) / 3;
+          g.moveTo(0, 0);
+          g.lineTo(Math.cos(a) * z * 0.8, Math.sin(a) * z * 0.8);
         }
         g.stroke();
+        for (let k = 0; k < 6; k++) {
+          const a = (k * Math.PI) / 3;
+          g.beginPath();
+          g.arc(Math.cos(a) * z * 0.95, Math.sin(a) * z * 0.95, 2, 0, Math.PI * 2);
+          g.fill();
+        }
       }
       g.restore();
     }
@@ -210,7 +224,7 @@ export class Backdrop {
           f.y = -6;
           f.x = Math.random() * w;
         }
-        g.globalAlpha = 0.35 + f.r / 7;
+        g.globalAlpha = 0.6 + f.r / 12;
         g.beginPath();
         g.arc(f.x + Math.sin(f.phase) * f.sway, f.y, f.r, 0, Math.PI * 2);
         g.fill();

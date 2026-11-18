@@ -9,12 +9,12 @@
 }
 .who-btn {
   font: inherit;
-  color: var(--ink);
+  color: var(--on);
   text-align: left;
   background: var(--c);
   border: var(--line);
-  border-radius: 16px;
-  padding: 14px 14px 12px;
+  border-radius: 10px;
+  padding: 12px 14px 12px;
   box-shadow: 4px 4px 0 var(--ink);
   cursor: pointer;
   transition:
@@ -35,7 +35,7 @@
 }
 .who-btn b {
   display: block;
-  font: 400 1.55rem/1 var(--display);
+  font: 700 1.9rem/1.05 var(--display);
 }
 .who-btn span {
   display: block;
@@ -45,7 +45,7 @@
   line-height: 1.2;
 }
 
-/* three paper tags on strings */
+/* three gift tags on strings */
 .how {
   list-style: none;
   padding: 0;
@@ -56,9 +56,10 @@
 }
 .how li {
   --tilt: -1deg;
+  color: var(--on);
   background: var(--c);
   border: var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 14px 16px 14px 44px;
   position: relative;
   box-shadow: 4px 4px 0 var(--ink);
@@ -85,12 +86,14 @@
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: var(--night);
+  background: var(--sky);
   border: var(--line);
 }
 .how b {
   display: block;
-  font: 400 1.15rem/1.15 var(--display);
+  font: 800 0.98rem/1.2 var(--body);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   margin-bottom: 4px;
 }
 @keyframes dangle {

@@ -15,7 +15,7 @@ interface Piece {
   life: number;
 }
 
-const COLORS = ['#e5553b', '#9aae3f', '#ecb23a', '#e8899a', '#45a69d', '#e07b2a'];
+const COLORS = ['#cf2e26', '#1d6b5f', '#f0b53a', '#f2a3ad', '#6fbfb8', '#fffaf0'];
 
 /** Paper confetti on one shared canvas above the page. Silent when motion is off. */
 @Injectable({ providedIn: 'root' })
