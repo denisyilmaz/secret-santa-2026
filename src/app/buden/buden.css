@@ -1,0 +1,253 @@
+section {
+  margin-top: 46px;
+}
+.booths {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 30px 22px;
+  align-items: start;
+}
+
+/* ---------- booth: rises in, the awning unrolls and flutters ---------- */
+.booth {
+  background: var(--paper);
+  border: var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 0 16px 18px;
+  animation: booth-in 0.65s var(--spring) both;
+  animation-delay: calc(var(--i) * 110ms + 150ms);
+}
+.awning {
+  height: 46px;
+  margin: 0 -16px;
+  border-bottom: var(--line);
+  border-radius: 17px 17px 0 0;
+  position: relative;
+  background: repeating-linear-gradient(90deg, var(--c) 0 26px, #fff 26px 52px);
+  transform-origin: top;
+  animation: unroll 0.55s var(--spring) both;
+  animation-delay: calc(var(--i) * 110ms + 420ms);
+}
+.awning::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 3px);
+  height: 13px;
+  filter: drop-shadow(0 3px 0 var(--ink));
+  background:
+    radial-gradient(circle at 13px 0, var(--c) 12.5px, transparent 13px) 0 0/52px 13px repeat-x,
+    radial-gradient(circle at 13px 0, #fff 12.5px, transparent 13px) 26px 0/52px 13px repeat-x;
+  transform-origin: top;
+  animation: flutter 3.4s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.8s);
+}
+@keyframes booth-in {
+  from {
+    transform: translateY(46px) scale(0.92) rotate(-2deg);
+    opacity: 0;
+  }
+}
+@keyframes unroll {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes flutter {
+  from {
+    transform: skewX(-7deg) scaleY(0.92);
+  }
+  to {
+    transform: skewX(7deg) scaleY(1.08);
+  }
+}
+
+.booth-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 30px;
+}
+.plate {
+  margin: 0;
+  font: 400 1.55rem/1 var(--display);
+  background: var(--c);
+  border: var(--line);
+  border-radius: 12px;
+  padding: 0.28em 0.55em 0.34em;
+  transform: rotate(-2deg);
+  transform-origin: 50% -14px;
+  box-shadow: 3px 3px 0 var(--ink);
+  animation: plate-swing 1.6s ease-out both;
+  animation-delay: calc(var(--i) * 110ms + 600ms);
+}
+@keyframes plate-swing {
+  0% {
+    transform: rotate(-16deg);
+  }
+  30% {
+    transform: rotate(9deg);
+  }
+  55% {
+    transform: rotate(-7deg);
+  }
+  78% {
+    transform: rotate(1deg);
+  }
+  100% {
+    transform: rotate(-2deg);
+  }
+}
+.yours {
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 999px;
+  padding: 0.2em 0.7em;
+}
+.booth-meta {
+  margin: 12px 0 4px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ---------- wishes ---------- */
+.wishes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.wish {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: start;
+  padding: 11px 0;
+  border-top: 2px dashed rgba(42, 23, 13, 0.25);
+  animation: wish-in 0.4s var(--spring);
+}
+.wish:first-child {
+  border-top: 0;
+}
+@keyframes wish-in {
+  from {
+    transform: translateX(-18px);
+    opacity: 0;
+  }
+}
+.wish-body {
+  min-width: 0;
+  padding-top: 3px;
+}
+.wish-text {
+  display: block;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: transparent;
+  transition:
+    color 0.3s,
+    text-decoration-color 0.3s;
+}
+label.wish-text {
+  cursor: pointer;
+}
+.wish-body a {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+.wish-state {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.wish.is-ticked .wish-text {
+  color: var(--muted);
+  text-decoration-color: currentColor;
+}
+
+/* my own wishes: a little box that rattles now and then, contents unknown */
+.mystery {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-content: center;
+  border: var(--line);
+  border-radius: 9px;
+  background: var(--c);
+  font: 400 1.1rem/1 var(--display);
+  animation: rattle 5.5s ease-in-out infinite;
+  animation-delay: calc(var(--j) * 1.4s + 2s);
+}
+@keyframes rattle {
+  0%,
+  82%,
+  100% {
+    transform: none;
+  }
+  85% {
+    transform: rotate(-13deg) translateY(-4px);
+  }
+  88% {
+    transform: rotate(11deg);
+  }
+  91% {
+    transform: rotate(-8deg) translateY(-2px);
+  }
+  94% {
+    transform: rotate(5deg);
+  }
+}
+.x {
+  width: 32px;
+  height: 32px;
+  border: var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font: 700 1.1rem/1 var(--body);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.16s var(--spring);
+}
+@media (hover: hover) {
+  .x:hover {
+    transform: rotate(90deg) scale(1.1);
+  }
+}
+
+/* the rubber stamp that lands when I tick something */
+.stamp {
+  align-self: center;
+  font: 400 0.82rem/1 var(--display);
+  color: #b5301f;
+  border: 3px solid #b5301f;
+  border-radius: 8px;
+  padding: 0.32em 0.5em;
+  transform: rotate(-9deg);
+  animation: stamp 0.4s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+@keyframes stamp {
+  from {
+    transform: rotate(-9deg) scale(3);
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+}
+
+.add {
+  margin-top: 10px;
+  padding-top: 6px;
+  border-top: var(--line);
+}

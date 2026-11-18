@@ -1,0 +1,81 @@
+<wm-backdrop />
+
+<div class="page">
+  <header class="hero">
+    <div class="lights" aria-hidden="true">
+      @for (b of bulbs(); track b) {
+        <span class="bulb" [style.--i]="b"></span>
+      }
+    </div>
+
+    <div class="marquee">
+      <h1 class="logo" aria-label="Wichtelmarkt">
+        <span class="word" aria-hidden="true">
+          @for (ch of word1; track $index) {
+            <span class="ltr" [style.--i]="$index">{{ ch }}</span>
+          }
+        </span>
+        <span class="word" aria-hidden="true">
+          @for (ch of word2; track $index) {
+            <span class="ltr" [style.--i]="$index + 7">{{ ch }}</span>
+          }
+        </span>
+      </h1>
+      <p class="burst">
+        <i aria-hidden="true"></i>
+        <b>{{ dayBig() }}</b>
+        <span>{{ dayLabel() }}</span>
+      </p>
+    </div>
+  </header>
+
+  <div class="ribbon-clip" aria-hidden="true">
+    <div class="ribbon">
+      <div class="ribbon-track">
+        @for (r of ribbonRepeat; track r) {
+          @for (line of ribbon; track line) {
+            <span>{{ line }}</span>
+          }
+        }
+      </div>
+    </div>
+  </div>
+  <p class="sr">Spenden verlosen, Wünsche aufschreiben, heimlich abhaken.</p>
+
+  <main class="wrap">
+    @if (store.demo) {
+      <p class="banner demo">
+        Vorschau mit Beispieldaten. Alles bleibt auf diesem Gerät, niemand sonst sieht es.
+      </p>
+    }
+    @if (store.stale()) {
+      <p class="banner" role="status">Keine Verbindung. Was du siehst, ist vielleicht nicht mehr aktuell.</p>
+    }
+
+    @if (store.phase() === 'market') {
+      <wm-market />
+    } @else {
+      <wm-gate />
+    }
+
+    <footer class="foot">
+      @if (familyLine()) {
+        <p>{{ familyLine() }}</p>
+      }
+      @if (!store.demo) {
+        <p>Was du nicht sehen sollst, schickt der Server gar nicht erst an dein Gerät.</p>
+      }
+      <p>
+        <button type="button" class="motion" (click)="motion.toggle()" [attr.aria-pressed]="!motion.enabled()">
+          {{ motion.enabled() ? 'Animationen ausschalten' : 'Animationen einschalten' }}
+        </button>
+      </p>
+      @if (store.state()?.me?.isAdmin) {
+        <wm-admin />
+      }
+    </footer>
+  </main>
+</div>
+
+<wm-dialog-host />
+<wm-toasts />

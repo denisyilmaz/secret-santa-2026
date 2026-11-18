@@ -1,0 +1,104 @@
+.card {
+  animation: rise-in 0.55s var(--spring) both;
+}
+.who {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.who-btn {
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  background: var(--c);
+  border: var(--line);
+  border-radius: 16px;
+  padding: 14px 14px 12px;
+  box-shadow: 4px 4px 0 var(--ink);
+  cursor: pointer;
+  transition:
+    transform 0.16s var(--spring),
+    box-shadow 0.16s;
+  animation: pop-in 0.5s var(--spring) both;
+  animation-delay: calc(var(--i) * 80ms + 250ms);
+}
+@media (hover: hover) {
+  .who-btn:hover {
+    transform: translate(-2px, -3px) rotate(-2deg);
+    box-shadow: 7px 8px 0 var(--ink);
+  }
+}
+.who-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+.who-btn b {
+  display: block;
+  font: 400 1.55rem/1 var(--display);
+}
+.who-btn span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* three paper tags on strings */
+.how {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+}
+.how li {
+  --tilt: -1deg;
+  background: var(--c);
+  border: var(--line);
+  border-radius: 14px;
+  padding: 14px 16px 14px 44px;
+  position: relative;
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(var(--tilt));
+  transform-origin: 22px 22px;
+  animation:
+    dangle 5s ease-in-out infinite,
+    rise-in 0.55s var(--spring) backwards;
+  animation-delay: 1.4s, 0.6s;
+}
+.how li:nth-child(2) {
+  --tilt: 0.8deg;
+  animation-delay: 2.1s, 0.72s;
+}
+.how li:nth-child(3) {
+  --tilt: -0.5deg;
+  animation-delay: 2.8s, 0.84s;
+}
+.how li::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--night);
+  border: var(--line);
+}
+.how b {
+  display: block;
+  font: 400 1.15rem/1.15 var(--display);
+  margin-bottom: 4px;
+}
+@keyframes dangle {
+  0%,
+  100% {
+    transform: rotate(var(--tilt));
+  }
+  50% {
+    transform: rotate(calc(var(--tilt) * -1.6));
+  }
+}

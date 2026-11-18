@@ -1,0 +1,320 @@
+/* Wichtelmarkt: tokens, base and the pieces every component shares.
+   Layout idea: a night market street. Light chain and painted sign on top,
+   then striped booths: one column on phones, two to three from 760px.
+   One visual world, so there is a single theme. */
+:root {
+  /* 70s Christmas: pine night, cream paper, chocolate ink */
+  --night: #10332b;
+  --night-2: #1f4d3c;
+  --ink: #2a170d;
+  --paper: #fbefd5;
+  --paper-2: #f3d9a4;
+  --red: #e5553b; /* cranberry */
+  --green: #9aae3f; /* avocado */
+  --yellow: #ecb23a; /* harvest gold */
+  --pink: #e8899a; /* dusty rose */
+  --teal: #45a69d; /* peacock */
+  --orange: #e07b2a; /* burnt orange */
+  --blue: #2562b8; /* focus ring */
+  --ok: #3f7d3a; /* a ticked box */
+  --link: #17635e;
+  --wire: #c9952b; /* brass cord of the light chains */
+  --muted: #6d5a48;
+  --display: 'Titan One', 'Arial Black', Impact, system-ui, sans-serif;
+  --body: 'Fredoka', 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  --line: 3px solid var(--ink);
+  --shadow: 5px 5px 0 var(--ink);
+  --spring: cubic-bezier(0.2, 1.6, 0.4, 1);
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--night);
+  color: var(--ink);
+  font: 500 1rem/1.45 var(--body);
+  overflow-x: hidden;
+}
+
+/* The one switch for movement: Motion service sets html[data-motion]. */
+:root[data-motion='off'] *,
+:root[data-motion='off'] *::before,
+:root[data-motion='off'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Person colours: put data-c on an element, read var(--c) inside. */
+[data-c='pink'] {
+  --c: var(--pink);
+}
+[data-c='teal'] {
+  --c: var(--teal);
+}
+[data-c='yellow'] {
+  --c: var(--yellow);
+}
+[data-c='green'] {
+  --c: var(--green);
+}
+[data-c='red'] {
+  --c: var(--red);
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+a {
+  color: var(--link);
+}
+
+/* ---------- headings on the night sky ---------- */
+.sign {
+  margin: 0 0 6px;
+  font: 400 clamp(1.8rem, 7vw, 2.5rem) / 1 var(--display);
+  color: var(--paper);
+  -webkit-text-stroke: 0.035em var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 0.07em 0.07em 0 var(--ink);
+  transform-origin: left center;
+  animation: sign-in 0.7s var(--spring) both;
+}
+.lede {
+  margin: 0 0 20px;
+  max-width: 54ch;
+  color: #f6ead0;
+  text-shadow: 0 2px 0 var(--ink);
+}
+
+/* ---------- cards, buttons, forms ---------- */
+.card {
+  background: var(--paper);
+  border: var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.card h3 {
+  margin: 0 0 10px;
+  font: 400 1.35rem/1.1 var(--display);
+}
+.card p {
+  margin: 0 0 12px;
+}
+.hint {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.btn {
+  position: relative;
+  overflow: hidden;
+  font: 600 1rem/1.1 var(--body);
+  color: var(--ink);
+  background: var(--yellow);
+  border: var(--line);
+  border-radius: 999px;
+  padding: 0.72em 1.25em;
+  box-shadow: 4px 4px 0 var(--ink);
+  cursor: pointer;
+  transition:
+    transform 0.14s var(--spring),
+    box-shadow 0.14s;
+}
+@media (hover: hover) {
+  .btn:hover:not(:disabled) {
+    transform: translate(-1px, -2px) rotate(-1.5deg);
+    box-shadow: 6px 7px 0 var(--ink);
+  }
+}
+.btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+.btn:disabled {
+  background: #e6dfc9;
+  color: var(--muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+.btn.ghost {
+  background: #fff;
+}
+.btn.small {
+  font-size: 0.92rem;
+  padding: 0.5em 0.95em;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.btn.danger {
+  background: var(--red);
+}
+/* A light sweep across the one button that matters right now. */
+.btn.shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: skewX(-20deg);
+  animation: shine 3.2s ease-in-out infinite;
+}
+.linkbtn {
+  font: 600 0.95rem var(--body);
+  color: var(--ink);
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.lbl {
+  display: block;
+  font-weight: 600;
+  margin: 14px 0 5px;
+}
+.lbl small {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.txt {
+  display: block;
+  width: 100%;
+  font: 500 1rem/1.3 var(--body);
+  color: var(--ink);
+  background: #fff;
+  border: var(--line);
+  border-radius: 12px;
+  padding: 0.62em 0.75em;
+}
+textarea.txt {
+  resize: vertical;
+  min-height: 4.2em;
+}
+.form-err {
+  margin: 10px 0 0;
+  color: #a8281c;
+  font-weight: 600;
+}
+.banner {
+  margin: 0 0 22px;
+  background: var(--yellow);
+  border: var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-weight: 600;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* ---------- the chunky checkbox ---------- */
+.tickbox {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  border: var(--line);
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: transform 0.2s var(--spring);
+}
+.tickbox::after {
+  content: '';
+  width: 15px;
+  height: 8px;
+  border-left: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  transform: translateY(-2px) rotate(-45deg) scale(0);
+  transition: transform 0.22s var(--spring);
+}
+.tickbox:checked {
+  background: var(--ok);
+  transform: rotate(-6deg) scale(1.08);
+}
+.tickbox:checked::after {
+  transform: translateY(-2px) rotate(-45deg) scale(1);
+}
+.tickbox:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.tickbox:checked:disabled {
+  background: var(--muted);
+  transform: none;
+}
+
+/* ---------- shared keyframes ---------- */
+@keyframes pop-in {
+  from {
+    transform: scale(0.4) rotate(-8deg);
+    opacity: 0;
+  }
+}
+@keyframes rise-in {
+  from {
+    transform: translateY(34px) scale(0.95);
+    opacity: 0;
+  }
+}
+@keyframes sign-in {
+  from {
+    transform: translateX(-30px) skewX(-18deg) scale(0.8);
+    opacity: 0;
+  }
+}
+@keyframes shake {
+  20% {
+    transform: translateX(-9px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(8px) rotate(1deg);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+@keyframes shine {
+  0%,
+  55% {
+    left: -60%;
+  }
+  100% {
+    left: 130%;
+  }
+}

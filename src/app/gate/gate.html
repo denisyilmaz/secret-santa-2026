@@ -1,0 +1,62 @@
+@switch (store.phase()) {
+  @case ('boot') {
+    <div class="card">
+      <h3>Der Markt öffnet gleich</h3>
+      <p class="hint">Die Buden werden aufgebaut.</p>
+    </div>
+  }
+
+  @case ('code') {
+    <form class="card" novalidate (submit)="submitCode($event)">
+      <h3>Nur für die Familie</h3>
+      <p>Gib den Familiencode aus der Einladung ein. Danach merkt sich dieses Gerät ihn.</p>
+      <label class="lbl" for="familyCode">Familiencode</label>
+      <input
+        class="txt"
+        id="familyCode"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        [value]="code()"
+        (input)="code.set(val($event))"
+      />
+      @if (codeError()) {
+        <p class="form-err" role="alert">{{ codeError() }}</p>
+      }
+      <div class="row">
+        <button class="btn" type="submit" [disabled]="busy()">Markt betreten</button>
+      </div>
+    </form>
+  }
+
+  @case ('down') {
+    <div class="card">
+      <h3>Der Markt ist gerade zu</h3>
+      <p>{{ downText() }}</p>
+      <div class="row">
+        <button class="btn" type="button" [disabled]="busy()" (click)="retry()">Noch einmal versuchen</button>
+      </div>
+    </div>
+  }
+
+  @case ('gate') {
+    <div class="card">
+      <h3>Wer bist du?</h3>
+      <p>Tippe auf deinen Namen. Beim ersten Mal legst du eine Geheimzahl fest.</p>
+      <div class="who">
+        @for (m of store.roster(); track m.key; let i = $index) {
+          <button type="button" class="who-btn" [attr.data-c]="m.color" [style.--i]="i" (click)="pick(m)">
+            <b>{{ m.name }}</b>
+            <span>{{ m.hasPin ? 'Geheimzahl eingeben' : 'Neu: Geheimzahl festlegen' }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <ul class="how">
+      <li data-c="yellow"><b>Spendenwunsch eintragen</b>Sag, wohin jemand für dich spenden soll.</li>
+      <li data-c="pink"><b>Los ziehen</b>Sind alle Wünsche da, wird gelost. Du siehst nur dein eigenes Los.</li>
+      <li data-c="teal"><b>Wunschzettel füllen</b>Alle lesen mit. Wer was abhakt, erfährst du nicht.</li>
+    </ul>
+  }
+}

@@ -1,0 +1,158 @@
+<section aria-labelledby="spendenH">
+  <h2 class="sign" id="spendenH">Spendenwichtel</h2>
+  <p class="lede">Alle nennen einen Ort für eine Spende. Dann wird gelost, wer für wen spendet.</p>
+
+  <div class="grid2">
+    <!-- my donation wish -->
+    <div class="card">
+      <h3>Dein Spendenwunsch</h3>
+      @if (showForm()) {
+        <form novalidate (submit)="save($event)">
+          <label class="lbl" for="donOrg">Organisation oder Projekt</label>
+          <input
+            class="txt"
+            id="donOrg"
+            maxlength="120"
+            autocomplete="off"
+            placeholder="z. B. Berliner Tafel"
+            [value]="org()"
+            (input)="org.set(val($event))"
+          />
+          <label class="lbl" for="donLink">Link <small>optional</small></label>
+          <input
+            class="txt"
+            id="donLink"
+            maxlength="500"
+            inputmode="url"
+            autocomplete="off"
+            autocapitalize="off"
+            placeholder="https://"
+            [value]="link()"
+            (input)="link.set(val($event))"
+          />
+          <label class="lbl" for="donNote">Ein Satz dazu <small>optional</small></label>
+          <textarea
+            class="txt"
+            id="donNote"
+            maxlength="300"
+            rows="2"
+            [value]="note()"
+            (input)="note.set(val($event))"
+          ></textarea>
+          @if (formError()) {
+            <p class="form-err" role="alert">{{ formError() }}</p>
+          }
+          <div class="row">
+            <button class="btn" type="submit" [disabled]="saving()">Wunsch speichern</button>
+            @if (s().myDonation) {
+              <button class="btn ghost" type="button" (click)="editing.set(false)">Abbrechen</button>
+            }
+          </div>
+        </form>
+      } @else {
+        @if (s().myDonation; as d) {
+          <div class="pot">
+            <p class="pot-org">{{ d.org }}</p>
+            @if (d.note) {
+              <p class="pot-note">{{ d.note }}</p>
+            }
+            @if (d.link) {
+              <a [href]="d.link" target="_blank" rel="noopener noreferrer">{{ host(d.link) }}</a>
+            }
+          </div>
+          @if (s().drawn) {
+            <p class="hint">Seit der Auslosung steht dein Wunsch fest.</p>
+          } @else {
+            <p class="hint">Dein Wunsch liegt im Topf. Bis zur Auslosung kannst du ihn ändern.</p>
+            <button type="button" class="btn small ghost" (click)="startEdit()">Ändern</button>
+          }
+        } @else {
+          <p>Vor der Auslosung stand von dir kein Wunsch im Topf.</p>
+        }
+      }
+    </div>
+
+    <!-- the drum -->
+    <div class="card">
+      <h3>Lostrommel</h3>
+
+      @if (spinning() || !s().drawn) {
+        <div class="drum" #drum [class.spinning]="spinning()" aria-hidden="true">
+          <div class="drum-legs"></div>
+          <div class="drum-crank"></div>
+          <div class="drum-body">
+            @for (m of inPot(); track m.key; let k = $index) {
+              <span class="ball" [style.--k]="k"><span [attr.data-c]="m.color">{{ m.name.charAt(0) }}</span></span>
+            }
+            <i class="hub"></i>
+          </div>
+        </div>
+        <ul class="chips" aria-label="Spendenwünsche im Topf">
+          @for (m of members(); track m.key) {
+            <li class="chip" [attr.data-c]="m.color" [class.on]="m.hasDonation">
+              {{ m.name }}<span class="sr">{{ m.hasDonation ? ', eingetragen' : ', fehlt noch' }}</span>
+            </li>
+          }
+        </ul>
+        @if (spinning()) {
+          <p class="rolling" role="status">Die Trommel dreht sich …</p>
+        } @else if (missing().length) {
+          <p>{{ missingText() }}</p>
+          <button type="button" class="btn" disabled>Lose ziehen</button>
+        } @else {
+          <p>Alle Wünsche liegen im Topf. Wer zieht, lost für alle. Jede Person sieht nur ihr eigenes Los.</p>
+          <button type="button" class="btn shine" (click)="draw()">Lose ziehen</button>
+        }
+      } @else {
+        @if (s().myLot; as mine) {
+          @if (lot() !== 'open') {
+            <button
+              type="button"
+              class="lot shut"
+              [class.turning]="lot() === 'turning'"
+              aria-expanded="false"
+              (click)="reveal()"
+            >
+              <span class="lot-big">Dein Los liegt bereit</span>
+              <span class="lot-small">Tippen zum Aufdecken</span>
+            </button>
+          } @else {
+            <div class="lot open" #ticket>
+              <p>Du spendest für</p>
+              <p class="lot-name">
+                <span [attr.data-c]="receiver()?.color">{{ receiver()?.name ?? mine.receiver }}</span>
+              </p>
+              <p class="lot-org">{{ mine.org || 'Kein Wunsch eingetragen' }}</p>
+              @if (mine.note) {
+                <p class="lot-note">{{ mine.note }}</p>
+              }
+              @if (mine.link) {
+                <a [href]="mine.link" target="_blank" rel="noopener noreferrer">{{ host(mine.link) }}</a>
+              }
+            </div>
+            <button type="button" class="linkbtn" (click)="lot.set('shut')">Los wieder zudecken</button>
+          }
+          <label class="donebox" for="doneBox">
+            <input type="checkbox" class="tickbox" id="doneBox" [checked]="mine.done" (change)="setDone($event)" />
+            <span>Meine Spende ist erledigt</span>
+          </label>
+        } @else {
+          <p>Für dich liegt kein Los in der Trommel. Frag {{ store.adminName() }}.</p>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- light chain -->
+  <div class="card chain-card">
+    <p>{{ chainText() }}</p>
+    <ul class="chain" [class.all]="lit() === members().length">
+      @for (m of members(); track m.key; let i = $index) {
+        <li [attr.data-c]="m.color" [class.on]="m.donated" [style.--i]="i">
+          <span class="cb" aria-hidden="true"></span>{{ m.name
+          }}<span class="sr">{{ m.donated ? ', Spende erledigt' : ', Spende offen' }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>

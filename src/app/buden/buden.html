@@ -1,0 +1,96 @@
+<section aria-labelledby="wuenscheH">
+  <h2 class="sign" id="wuenscheH">Wunschzettel</h2>
+  <p class="lede">
+    Alle Wünsche sind für alle sichtbar. Hak ab, was du besorgst. Wer den Wunsch geschrieben hat, sieht davon nichts.
+  </p>
+
+  <div class="booths">
+    @for (b of booths(); track b.member.key; let i = $index) {
+      <article class="booth" [attr.data-c]="b.member.color" [style.--i]="i">
+        <div class="awning" aria-hidden="true"></div>
+        <div class="booth-head">
+          <h3 class="plate">{{ b.member.name }}</h3>
+          @if (b.own) {
+            <span class="yours">Deine Bude</span>
+          }
+        </div>
+        <p class="booth-meta">{{ b.meta }}</p>
+
+        <ul class="wishes">
+          @for (w of b.wishes; track w.id; let j = $index) {
+            @if (b.own) {
+              <li class="wish own">
+                <span class="mystery" aria-hidden="true" [style.--j]="j">?</span>
+                <div class="wish-body">
+                  <span class="wish-text">{{ w.text }}</span>
+                  @if (w.link) {
+                    <a [href]="w.link" target="_blank" rel="noopener noreferrer">{{ host(w.link) }}</a>
+                  }
+                </div>
+                <button type="button" class="x" [attr.aria-label]="'Wunsch entfernen: ' + w.text" (click)="remove(w)">
+                  ×
+                </button>
+              </li>
+            } @else {
+              <li class="wish" [class.is-ticked]="!!w.tickBy">
+                <input
+                  type="checkbox"
+                  class="tickbox"
+                  [id]="'tick-' + w.id"
+                  [checked]="!!w.tickBy"
+                  [disabled]="w.locked"
+                  (change)="toggle(w, $event)"
+                />
+                <div class="wish-body">
+                  <label class="wish-text" [for]="'tick-' + w.id">{{ w.text }}</label>
+                  @if (w.link) {
+                    <a [href]="w.link" target="_blank" rel="noopener noreferrer">{{ host(w.link) }}</a>
+                  }
+                  @if (w.status) {
+                    <span class="wish-state">{{ w.status }}</span>
+                  }
+                </div>
+                @if (w.mine) {
+                  <span class="stamp" aria-hidden="true">Meins!</span>
+                }
+              </li>
+            }
+          }
+        </ul>
+
+        @if (b.own) {
+          <form class="add" novalidate (submit)="add($event)">
+            <label class="lbl" for="wishText">Neuer Wunsch</label>
+            <input
+              class="txt"
+              id="wishText"
+              maxlength="140"
+              autocomplete="off"
+              placeholder="Was wünschst du dir?"
+              [value]="text()"
+              (input)="text.set(val($event))"
+            />
+            <label class="lbl" for="wishLink">Link <small>optional</small></label>
+            <input
+              class="txt"
+              id="wishLink"
+              maxlength="500"
+              inputmode="url"
+              autocomplete="off"
+              autocapitalize="off"
+              placeholder="https://"
+              [value]="link()"
+              (input)="link.set(val($event))"
+            />
+            @if (formError()) {
+              <p class="form-err" role="alert">{{ formError() }}</p>
+            }
+            <div class="row">
+              <button class="btn" type="submit" [disabled]="adding()">Auf den Zettel</button>
+            </div>
+          </form>
+        }
+      </article>
+    }
+  </div>
+</section>
